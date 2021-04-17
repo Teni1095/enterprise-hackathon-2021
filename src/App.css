@@ -1,3 +1,18 @@
+.App {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-flow: column;
+}
+
+.App > .container {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
 .navbar, .card {
     margin-bottom: 1rem;
 }

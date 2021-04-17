@@ -1,0 +1,10 @@
+.login-route {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-route form {
+    width: 100%;
+}

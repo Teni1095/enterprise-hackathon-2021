@@ -1,0 +1,31 @@
+.view-topic-route {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.view-topic-route .card {
+    max-height: 30%;
+    overflow-y: auto;
+}
+
+.view-topic-route .chat {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    flex-flow: column;
+}
+
+.view-topic-route .chat .messages {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.view-topic-route .chat .input form {
+    display: flex;
+}
+
+.view-topic-route .messages .message .username {
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
