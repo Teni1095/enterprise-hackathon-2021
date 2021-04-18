@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import App from "../../App";
+import {getAllTopics} from "../login/firebaseConfig";
 import {cards} from "../topics";
 
 import "./index.css";
@@ -23,8 +24,15 @@ const messages = [
 
 const ViewTopicRoute = () => {
   const {topicId} = useParams();
+  const [topic, setTopic] = useState();
 
-  const topic = cards.find(({id}) => id === +topicId);
+  useEffect(() => {
+    (async () => {
+      const topics = await getAllTopics();
+      const topic = topics.find();
+      setTopics(topics);
+    })()
+  }, []);
 
   return (
     <App>

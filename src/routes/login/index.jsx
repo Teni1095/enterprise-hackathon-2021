@@ -3,7 +3,7 @@ import {Button, Form, Row} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import App from "../../App";
 import "./index.css"
-import {getCurrentUser, getRedirectResult, signIn} from "./firebaseConfig";
+import {getCurrentUser, getRedirectResult, signIn, updateDb} from "./firebaseConfig";
 
 const LoginRoute = () => {
   const history = useHistory();
@@ -12,6 +12,11 @@ const LoginRoute = () => {
     (async () => {
       const redirectUser = await getRedirectResult();
       const currentUser = await getCurrentUser();
+
+      if (redirectUser !== null) {
+        await updateDb(redirectUser);
+      }
+
       if (currentUser !== null || redirectUser !== null) {
         history.push("/");
       }

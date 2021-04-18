@@ -1,7 +1,8 @@
 import {useHistory} from "react-router-dom";
 import App from "../../App";
 import {Card} from "react-bootstrap";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {getAllTopics} from "../login/firebaseConfig";
 
 export const cards = [
   {
@@ -18,9 +19,9 @@ export const cards = [
   }
 ]
 
-const PostCard = ({id, title, text, numRaised, onOpenClick}) => {
-  if (text.length > 128) {
-    text = `${text.substring(0, 128)}...`
+const PostCard = ({id, title, description, numRaised, onOpenClick}) => {
+  if (description.length > 128) {
+    description = `${description.substring(0, 128)}...`
   }
 
   return (
@@ -30,7 +31,7 @@ const PostCard = ({id, title, text, numRaised, onOpenClick}) => {
         <Card.Subtitle className="text-muted">
           {numRaised} involved
         </Card.Subtitle>
-        <Card.Text>{text}</Card.Text>
+        <Card.Text>{description}</Card.Text>
         <Card.Link className="justify-content-end" onClick={() => onOpenClick(id)}>Open</Card.Link>
       </Card.Body>
     </Card>
@@ -38,7 +39,15 @@ const PostCard = ({id, title, text, numRaised, onOpenClick}) => {
 }
 
 const TopicsRoute = () => {
+  const [topics, setTopics] = useState([]);
   const history = useHistory();
+
+  useEffect(() => {
+    (async () => {
+      const topics = await getAllTopics();
+      setTopics(topics);
+    })()
+  }, []);
 
   const onOpenClick = (id) => {
     history.push(`/topic/${id}`);
@@ -47,8 +56,8 @@ const TopicsRoute = () => {
   return (
     <div>
       <App>
-        {cards.map(({id, title, text, numRaised}) => (
-          <PostCard id={id} title={title} text={text} numRaised={numRaised} onOpenClick={onOpenClick}/>
+        {topics.map(({id, title, description, numRaised}) => (
+          <PostCard id={id} title={title} description={description} numRaised={numRaised} onOpenClick={onOpenClick}/>
         ))}
       </App>
     </div>
