@@ -19,7 +19,7 @@ export const cards = [
   }
 ]
 
-const PostCard = ({id, title, description, numRaised, onOpenClick}) => {
+const PostCard = ({id, title, description, involvedCount, onOpenClick}) => {
   if (description.length > 128) {
     description = `${description.substring(0, 128)}...`
   }
@@ -29,7 +29,7 @@ const PostCard = ({id, title, description, numRaised, onOpenClick}) => {
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle className="text-muted">
-          {numRaised} involved
+          {involvedCount ?? 0} involved
         </Card.Subtitle>
         <Card.Text>{description}</Card.Text>
         <Card.Link className="justify-content-end" onClick={() => onOpenClick(id)}>Open</Card.Link>
@@ -44,7 +44,8 @@ const TopicsRoute = () => {
 
   useEffect(() => {
     (async () => {
-      const topics = await getAllTopics();
+      let topics = await getAllTopics();
+      topics = topics.sort((a, b) => (b.involvedCount ?? 0) - (a.involvedCount ?? 0));
       setTopics(topics);
     })()
   }, []);
@@ -56,8 +57,8 @@ const TopicsRoute = () => {
   return (
     <div>
       <App>
-        {topics.map(({id, title, description, numRaised}) => (
-          <PostCard id={id} title={title} description={description} numRaised={numRaised} onOpenClick={onOpenClick}/>
+        {topics.map(({id, title, description, involvedCount}) => (
+          <PostCard id={id} title={title} description={description} involvedCount={involvedCount} onOpenClick={onOpenClick}/>
         ))}
       </App>
     </div>

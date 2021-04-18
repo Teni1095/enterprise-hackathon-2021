@@ -22,8 +22,6 @@ const check_if_user_exists = async email => {
     console.log("Error getting documents: ", e);
   }
 
-  debugger;
-
   return length !== 0;
 };
 
@@ -41,8 +39,6 @@ export const signIn = async () => { //Use this function to sign in via Google
 
 export const updateDb = async (user) => {
   const userExists = await check_if_user_exists(user.email);
-
-  debugger;
 
   if (!userExists) {
     const db = firebase.firestore();

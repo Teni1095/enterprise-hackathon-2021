@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Card, Form} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import App from "../../App";
-import {getAllTopics} from "../login/firebaseConfig";
+import {getAllTopics, increaseInvolvedCount} from "../login/firebaseConfig";
 import {cards} from "../topics";
 
 import "./index.css";
@@ -29,10 +29,10 @@ const ViewTopicRoute = () => {
   useEffect(() => {
     (async () => {
       const topics = await getAllTopics();
-      const topic = topics.find();
-      setTopics(topics);
+      const topic = topics.find(({id}) => id === topicId);
+      setTopic(topic);
     })()
-  }, []);
+  }, [topic]);
 
   return (
     <App>
@@ -42,10 +42,13 @@ const ViewTopicRoute = () => {
             <Card.Body>
               <Card.Title>{topic.title}</Card.Title>
               <Card.Subtitle className="text-muted">
-                {topic.numRaised} involved
+                {topic.involvedCount ?? 0} involved
               </Card.Subtitle>
-              <Card.Text>{topic.text}</Card.Text>
-              <Card.Link>Get Involved!</Card.Link>
+              <Card.Text>{topic.description}</Card.Text>
+              <Card.Link onClick={async () => {
+                await increaseInvolvedCount(topicId);
+                setTopic({...topic});
+              }}>Get Involved!</Card.Link>
             </Card.Body>
           </Card>
           <div className="chat">
